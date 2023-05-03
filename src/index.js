@@ -35,10 +35,30 @@ const MORSE_TABLE = {
     '---..':  '8',
     '----.':  '9',
     '-----':  '0',
+    ' ': ' ',
 };
 
 function decode(expr) {
-    // write your solution here
+    let chunkSize = expr.length/10
+    let arr = []
+
+
+    for(let i=0, o=0; i < chunkSize; i++, o += 10) {
+        arr.push(expr.substr(o, 10)) 
+    }
+    
+    return arr.map((item) => {
+        let str = ''
+        for(let i=0; i < item.length; i+= 2) {
+            if(item.charAt(i) === '1') {
+                str += item.charAt(i+1) === '1' ? '-' : '.'
+            }
+            if(item.charAt(i) === '*') {
+                return ' '
+            }
+        }
+        return str
+    }).reduce((acc, curVal) => acc + MORSE_TABLE[curVal], '')
 }
 
 module.exports = {
